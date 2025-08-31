@@ -1,16 +1,17 @@
 # MonProjetAudio : Streaming Audio en Temps Réel avec Traitement Backend
 
 ## Description du Projet
-Ce projet implémente une application mobile (React Native avec Expo) capable de capturer un flux audio en temps réel, de l'envoyer par fragments à un backend Node.js, où il est assemblé, converti en fichier WAV, et traité pour la réduction de bruit via FFmpeg.
+Ce projet implémente une application mobile (React Native avec Expo) capable de capturer un flux audio en temps réel, de l'envoyer par fragments au fur et à mesure à un backend Node.js, où il est assemblé en continu, converti en fichier WAV, et traité pour la réduction de bruit et la compression Opus.
 
 ## Fonctionnalités
 - Capture audio en temps réel depuis le microphone de l'appareil.
-- Streaming des fragments audio (PCM brut encodé en Base64) vers un backend.
-- Assemblage robuste des fragments audio sur le backend.
+- **Streaming continu des fragments audio (PCM brut encodé en Base64) vers le backend.**
+- **Assemblage en temps réel des fragments audio sur le backend.**
 - Conversion de l'audio assemblé en fichier WAV standard.
 - Réduction de bruit appliquée au fichier WAV via FFmpeg.
-- **Compression de l'audio nettoyé en format Opus via FFmpeg.**
+- Compression de l'audio nettoyé en format Opus via FFmpeg.
 - Pipeline de traitement audio entièrement fonctionnel et testé.
+- Le frontend attend la confirmation du backend que le traitement est terminé avant de finaliser l'arrêt.
 
 ## Architecture
 Le projet est divisé en deux parties principales :
@@ -20,13 +21,13 @@ Le projet est divisé en deux parties principales :
 ```mermaid
 graph TD
     A[Microphone] --> B(Application Mobile - Frontend);
-    B --> C{LiveAudioStream};
-    C --> D[Fragments Audio Base64];
-    D -- HTTP POST (Fragments) --> E(Serveur Node.js - Backend);
-    E --> F{Assemblage des Fragments};
-    F --> G[Fichier WAV Original];
-    G --> H{FFmpeg - Réduction de Bruit};
-    H --> I[Fichier WAV Nettoyé];
+    B --> C{LiveAudioStream - Capture Chunks Base64};
+    C -- HTTP POST (Fragments en continu) --> D(Serveur Node.js - Backend);
+    D --> E{Assemblage des Fragments en Temps Réel};
+    E --> F{Fichier WAV Original};
+    F --> G{FFmpeg - Réduction de Bruit};
+    G --> H{FFmpeg - Compression Opus};
+    H --> I[Fichiers Audio Finaux (.wav, .opus)];
 ```
 
 ## Prérequis
@@ -88,9 +89,9 @@ La première fois, cette commande compilera une version personnalisée de l'appl
 1.  Assurez-vous que le backend est en cours d'exécution.
 2.  Lancez l'application mobile via le client de développement.
 3.  Appuyez sur le bouton **"Démarrer l'écoute"**.
-4.  Parlez dans le microphone de votre appareil.
-5.  Appuyez sur le bouton **"Arrêter et Envoyer"**.
-6.  Le backend recevra les fragments, les assemblera, créera un fichier WAV original, un fichier WAV nettoyé par FFmpeg et un fichier Opus compressé dans le dossier `backend-audio/uploads/`.
+4.  Parlez dans le microphone de votre appareil (les fragments sont envoyés en continu).
+5.  Appuyez sur le bouton **"Arrêter"** (le frontend attendra la confirmation du backend).
+6.  Le backend recevra le signal de fin, finalisera l'assemblage, créera un fichier WAV original, un fichier WAV nettoyé par FFmpeg et un fichier Opus compressé dans le dossier `backend-audio/uploads/`.
 
 ## Dépannage
 *   **`SDK location not found` / Erreurs de build Android :** Assurez-vous que votre `ANDROID_HOME` est configuré ou que `sdk.dir` est correctement défini dans `MonProjetAudio/android/local.properties`.

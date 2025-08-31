@@ -1,7 +1,29 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Button, Alert, PermissionsAndroid, Platform } from 'react-native';
 import LiveAudioStream from 'react-native-live-audio-stream';
+import { Buffer } from 'buffer'; // Nécessaire pour décoder les chunks base64
+
+// Helper pour convertir les données PCM 16-bit (depuis le buffer) en Float32Array
+function pcm16tofloat32(buffer: Buffer): Float32Array {
+    const output = new Float32Array(buffer.length / 2);
+    for (let i = 0; i < buffer.length; i += 2) {
+        const value = buffer.readInt16LE(i);
+        output[i / 2] = value / 32768.0; // Normalisation entre -1.0 et 1.0
+    }
+    return output;
+}
+
+// Helper pour calculer l'énergie RMS d'un Float32Array
+function calculateRMS(buffer: Float32Array): number {
+    let sumSquares = 0;
+    for (let i = 0; i < buffer.length; i++) {
+        sumSquares += buffer[i] * buffer[i];
+    }
+    return Math.sqrt(sumSquares / buffer.length);
+}
+
+const SILENCE_THRESHOLD = 0.005; // Seuil RMS pour considérer le silence (à ajuster si besoin)
+const AUTO_STOP_DELAY = 3000; // 3 secondes de silence avant l'arrêt automatique
 
 export default function App() {
     const [isListening, setIsListening] = useState(false);
@@ -12,6 +34,8 @@ export default function App() {
     const audioQueue = useRef<string[]>([]); // File d'attente des chunks à envoyer
     const isSending = useRef(false); // Pour éviter les envois multiples en parallèle
     const sendIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const lastActivityTimeRef = useRef(Date.now()); // Temps de la dernière activité vocale
+    const autoStopIntervalRef = useRef<NodeJS.Timeout | null>(null); // Intervalle pour l'arrêt automatique
 
     useEffect(() => {
         async function requestMicPermission() {
@@ -31,12 +55,26 @@ export default function App() {
         LiveAudioStream.on('data', (data: string) => {
             // Chaque fragment reçu est ajouté à la file d'attente
             audioQueue.current.push(data);
+
+            // Détection de silence
+            const pcmFloat32 = pcm16tofloat32(Buffer.from(data, 'base64'));
+            const rms = calculateRMS(pcmFloat32);
+
+            if (rms > SILENCE_THRESHOLD) {
+                lastActivityTimeRef.current = Date.now(); // Réinitialise le timer de silence
+                setStatus("Écoute en cours (activité vocale)...");
+            } else {
+                setStatus("Écoute en cours (silence)...");
+            }
         });
 
         return () => {
             LiveAudioStream.stop();
             if (sendIntervalRef.current) {
                 clearInterval(sendIntervalRef.current);
+            }
+            if (autoStopIntervalRef.current) {
+                clearInterval(autoStopIntervalRef.current);
             }
         };
     }, []);
@@ -101,6 +139,7 @@ export default function App() {
         audioQueue.current = [];
         isSending.current = false;
         setIsListening(true);
+        lastActivityTimeRef.current = Date.now(); // Initialise le temps de dernière activité
         setStatus("Écoute en cours...");
 
         const options = { sampleRate: 16000, channels: 1, bitsPerSample: 16, audioSource: 6, bufferSize: 4096 };
@@ -109,6 +148,14 @@ export default function App() {
 
         // Démarrer l'intervalle d'envoi des chunks
         sendIntervalRef.current = setInterval(processQueue, 100); // Envoie un chunk toutes les 100ms
+
+        // Démarrer l'intervalle d'arrêt automatique
+        autoStopIntervalRef.current = setInterval(() => {
+            if (Date.now() - lastActivityTimeRef.current > AUTO_STOP_DELAY) {
+                console.log("Arrêt automatique: Silence prolongé détecté.");
+                stopListening(); // Appelle la fonction d'arrêt
+            }
+        }, 500); // Vérifie toutes les 500ms
     };
 
     const stopListening = async () => {
@@ -118,6 +165,10 @@ export default function App() {
         if (sendIntervalRef.current) {
             clearInterval(sendIntervalRef.current);
             sendIntervalRef.current = null;
+        }
+        if (autoStopIntervalRef.current) {
+            clearInterval(autoStopIntervalRef.current);
+            autoStopIntervalRef.current = null;
         }
         setStatus("Finalisation de l'envoi...");
 
