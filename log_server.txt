@@ -1,0 +1,55 @@
+node server.js
+Serveur backend démarré et à l'écoute sur http://0.0.0.0:3000
+Attente des fragments audio sur /stream-chunk...
+[session-1756641419636] Nouvelle session démarrée. Total de fragments attendus: 45
+[session-1756641419636] Fragment 1/45 reçu. Progrès: 1/45
+[session-1756641419636] Fragment 2/45 reçu. Progrès: 2/45
+[session-1756641419636] Fragment 3/45 reçu. Progrès: 3/45
+[session-1756641419636] Fragment 4/45 reçu. Progrès: 4/45
+[session-1756641419636] Fragment 5/45 reçu. Progrès: 5/45
+[session-1756641419636] Fragment 6/45 reçu. Progrès: 6/45
+[session-1756641419636] Fragment 7/45 reçu. Progrès: 7/45
+[session-1756641419636] Fragment 8/45 reçu. Progrès: 8/45
+[session-1756641419636] Fragment 9/45 reçu. Progrès: 9/45
+[session-1756641419636] Fragment 10/45 reçu. Progrès: 10/45
+[session-1756641419636] Fragment 11/45 reçu. Progrès: 11/45
+[session-1756641419636] Fragment 12/45 reçu. Progrès: 12/45
+[session-1756641419636] Fragment 13/45 reçu. Progrès: 13/45
+[session-1756641419636] Fragment 14/45 reçu. Progrès: 14/45
+[session-1756641419636] Fragment 15/45 reçu. Progrès: 15/45
+[session-1756641419636] Fragment 16/45 reçu. Progrès: 16/45
+[session-1756641419636] Fragment 17/45 reçu. Progrès: 17/45
+[session-1756641419636] Fragment 18/45 reçu. Progrès: 18/45
+[session-1756641419636] Fragment 19/45 reçu. Progrès: 19/45
+[session-1756641419636] Fragment 20/45 reçu. Progrès: 20/45
+[session-1756641419636] Fragment 21/45 reçu. Progrès: 21/45
+[session-1756641419636] Fragment 22/45 reçu. Progrès: 22/45
+[session-1756641419636] Fragment 23/45 reçu. Progrès: 23/45
+[session-1756641419636] Fragment 24/45 reçu. Progrès: 24/45
+[session-1756641419636] Fragment 25/45 reçu. Progrès: 25/45
+[session-1756641419636] Fragment 26/45 reçu. Progrès: 26/45
+[session-1756641419636] Fragment 27/45 reçu. Progrès: 27/45
+[session-1756641419636] Fragment 28/45 reçu. Progrès: 28/45
+[session-1756641419636] Fragment 29/45 reçu. Progrès: 29/45
+[session-1756641419636] Fragment 30/45 reçu. Progrès: 30/45
+[session-1756641419636] Fragment 31/45 reçu. Progrès: 31/45
+[session-1756641419636] Fragment 32/45 reçu. Progrès: 32/45
+[session-1756641419636] Fragment 33/45 reçu. Progrès: 33/45
+[session-1756641419636] Fragment 34/45 reçu. Progrès: 34/45
+[session-1756641419636] Fragment 35/45 reçu. Progrès: 35/45
+[session-1756641419636] Fragment 36/45 reçu. Progrès: 36/45
+[session-1756641419636] Fragment 37/45 reçu. Progrès: 37/45
+[session-1756641419636] Fragment 38/45 reçu. Progrès: 38/45
+[session-1756641419636] Fragment 39/45 reçu. Progrès: 39/45
+[session-1756641419636] Fragment 40/45 reçu. Progrès: 40/45
+[session-1756641419636] Fragment 41/45 reçu. Progrès: 41/45
+[session-1756641419636] Fragment 42/45 reçu. Progrès: 42/45
+[session-1756641419636] Fragment 43/45 reçu. Progrès: 43/45
+[session-1756641419636] Fragment 44/45 reçu. Progrès: 44/45
+[session-1756641419636] Fragment 45/45 reçu. Progrès: 45/45
+[session-1756641419636] Tous les fragments reçus. Assemblage et conversion en WAV...
+[session-1756641419636] DEBUG: Nombre de buffers binaires à assembler: 45
+[session-1756641419636] DEBUG: Taille du buffer binaire (PCM) après assemblage: 184320
+[session-1756641419636] DEBUG: Taille de l'en-tête WAV: 44
+[session-1756641419636] DEBUG: Taille du buffer final WAV (Header + PCM): 184364
+[session-1756641419636] Fichier WAV assemblé et sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756641419636.wav

@@ -1,0 +1,95 @@
+Démarrage de l'écoute...
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Fragment reçu, taille: 5464
+ LOG  Arrêt de l'écoute.
+ LOG  --- DÉBUT DE L'ENVOI DES FRAGMENTS ---
+ LOG  Envoi du fragment 1 / 45
+ LOG  Fragment reçu, taille: 5464
+ LOG  Envoi du fragment 2 / 45
+ LOG  Envoi du fragment 3 / 45
+ LOG  Envoi du fragment 4 / 45
+ LOG  Envoi du fragment 5 / 45
+ LOG  Envoi du fragment 6 / 45
+ LOG  Envoi du fragment 7 / 45
+ LOG  Envoi du fragment 8 / 45
+ LOG  Envoi du fragment 9 / 45
+ LOG  Envoi du fragment 10 / 45
+ LOG  Envoi du fragment 11 / 45
+ LOG  Envoi du fragment 12 / 45
+ LOG  Envoi du fragment 13 / 45
+ LOG  Envoi du fragment 14 / 45
+ LOG  Envoi du fragment 15 / 45
+ LOG  Envoi du fragment 16 / 45
+ LOG  Envoi du fragment 17 / 45
+ LOG  Envoi du fragment 18 / 45
+ LOG  Envoi du fragment 19 / 45
+ LOG  Envoi du fragment 20 / 45
+ LOG  Envoi du fragment 21 / 45
+ LOG  Envoi du fragment 22 / 45
+ LOG  Envoi du fragment 23 / 45
+ LOG  Envoi du fragment 24 / 45
+ LOG  Envoi du fragment 25 / 45
+ LOG  Envoi du fragment 26 / 45
+ LOG  Envoi du fragment 27 / 45
+ LOG  Envoi du fragment 28 / 45
+ LOG  Envoi du fragment 29 / 45
+ LOG  Envoi du fragment 30 / 45
+ LOG  Envoi du fragment 31 / 45
+ LOG  Envoi du fragment 32 / 45
+ LOG  Envoi du fragment 33 / 45
+ LOG  Envoi du fragment 34 / 45
+ LOG  Envoi du fragment 35 / 45
+ LOG  Envoi du fragment 36 / 45
+ LOG  Envoi du fragment 37 / 45
+ LOG  Envoi du fragment 38 / 45
+ LOG  Envoi du fragment 39 / 45
+ LOG  Envoi du fragment 40 / 45
+ LOG  Envoi du fragment 41 / 45
+ LOG  Envoi du fragment 42 / 45
+ LOG  Envoi du fragment 43 / 45
+ LOG  Envoi du fragment 44 / 45
+ LOG  Envoi du fragment 45 / 45
+ LOG  --- TOUS LES FRAGMENTS ONT ÉTÉ ENVOYÉS ---
