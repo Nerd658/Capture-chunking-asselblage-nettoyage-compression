@@ -1,4 +1,3 @@
-
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -54,91 +53,114 @@ function createWavHeader(dataLength, sampleRate, channels, bitsPerSample) {
 const sessions = {};
 
 app.post('/stream-chunk', (req, res) => {
-    const { sessionId, chunkIndex, totalChunks, data } = req.body;
+    const { sessionId, chunkIndex, data, isEndOfStream } = req.body; // Ajout de isEndOfStream
 
-    if (!sessionId || chunkIndex === undefined || !totalChunks || !data) {
+    if (!sessionId || chunkIndex === undefined || data === undefined) { // data peut être vide pour le signal de fin
         return res.status(400).json({ message: "Données de fragment manquantes." });
     }
 
     if (!sessions[sessionId]) {
-        console.log(`[${sessionId}] Nouvelle session démarrée. Total de fragments attendus: ${totalChunks}`);
-        sessions[sessionId] = { chunks: new Array(totalChunks), receivedCount: 0, total: totalChunks };
+        console.log(`[${sessionId}] Nouvelle session démarrée.`);
+        sessions[sessionId] = { chunks: [], receivedCount: 0, finalResponseSent: false };
     }
 
     const session = sessions[sessionId];
 
-    if (!session.chunks[chunkIndex]) {
-        session.chunks[chunkIndex] = data;
+    // Si c'est un fragment de données (pas le signal de fin)
+    if (!isEndOfStream) {
+        session.chunks[chunkIndex] = data; // Stocke le chunk à son index
         session.receivedCount++;
-    }
-    
-    console.log(`[${sessionId}] Fragment ${chunkIndex + 1}/${totalChunks} reçu. Progrès: ${session.receivedCount}/${session.total}`);
+        console.log(`[${sessionId}] Fragment ${chunkIndex} reçu. Progrès: ${session.receivedCount} fragments.`);
+        res.status(200).json({ message: `Fragment ${chunkIndex} reçu.` });
+    } else { // C'est le signal de fin de stream
+        console.log(`[${sessionId}] Signal de fin de stream reçu. Fragments totaux: ${session.receivedCount}.`);
+        // Empêcher les traitements multiples si le signal est envoyé plusieurs fois
+        if (session.finalResponseSent) {
+            return res.status(200).json({ message: "Fin de stream déjà traitée." });
+        }
+        session.finalResponseSent = true;
 
-    if (session.receivedCount === session.total) {
-        console.log(`[${sessionId}] Tous les fragments reçus. Assemblage et conversion en WAV...`);
-        
-        // Convertir chaque chunk base64 en buffer, PUIS concaténer les buffers.
-        const bufferChunks = session.chunks.map(chunk => Buffer.from(chunk, 'base64'));
-        console.log(`[${sessionId}] DEBUG: Nombre de buffers binaires à assembler: ${bufferChunks.length}`);
-        
-        const pcmBuffer = Buffer.concat(bufferChunks);
-        console.log(`[${sessionId}] DEBUG: Taille du buffer binaire (PCM) après assemblage: ${pcmBuffer.length}`);
-
-        // Créer l'en-tête WAV en utilisant les paramètres de notre flux
-        const wavHeader = createWavHeader(pcmBuffer.length, 16000, 1, 16);
-        console.log(`[${sessionId}] DEBUG: Taille de l\'en-tête WAV: ${wavHeader.length}`);
-
-        // Concaténer l'en-tête et les données PCM
-        const wavBuffer = Buffer.concat([wavHeader, pcmBuffer]);
-        console.log(`[${sessionId}] DEBUG: Taille du buffer final WAV (Header + PCM): ${wavBuffer.length}`);
-
-        const filePath = path.join(uploadsDir, `${sessionId}.wav`);
-
-        fs.writeFileSync(filePath, wavBuffer);
-        console.log(`[${sessionId}] Fichier WAV assemblé et sauvegardé: ${filePath}`);
-
-        // --- Étape de nettoyage avec FFmpeg ---
-        const cleanedFilePath = path.join(uploadsDir, `${sessionId}-cleaned.wav`);
-        const ffmpegCommand = `ffmpeg -i "${filePath}" -af "afftdn" "${cleanedFilePath}"`;
-        console.log(`[${sessionId}] DEBUG: Exécution de la commande FFmpeg: ${ffmpegCommand}`);
-
-        exec(ffmpegCommand, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`[${sessionId}] Erreur FFmpeg: ${error.message}`);
-                res.status(500).json({ message: "Erreur lors du nettoyage audio." });
+        // Déclencher l'assemblage et les traitements FFmpeg
+        // Utiliser un setTimeout pour ne pas bloquer la réponse du dernier chunk si le traitement est long
+        setTimeout(() => {
+            console.log(`[${sessionId}] Début du traitement final...`);
+            // Assurez-vous que tous les chunks sont bien là (même si le frontend les envoie séquentiellement)
+            const allChunksReceived = session.chunks.filter(c => c !== undefined).length === session.receivedCount;
+            if (!allChunksReceived) {
+                console.error(`[${sessionId}] Erreur: Tous les fragments n'ont pas été reçus ou sont manquants.`);
+                // Gérer l'erreur, peut-être renvoyer une erreur au client si possible
                 return;
             }
-            if (stderr) {
-                console.warn(`[${sessionId}] FFmpeg Avertissement: ${stderr}`);
-            }
-            console.log(`[${sessionId}] Fichier nettoyé sauvegardé: ${cleanedFilePath}`);
-            console.log(`[${sessionId}] FFmpeg Output: ${stdout}`);
 
-            // --- Étape de compression Opus avec FFmpeg ---
-            const opusFilePath = path.join(uploadsDir, `${sessionId}-cleaned.opus`);
-            const ffmpegOpusCommand = `ffmpeg -i "${cleanedFilePath}" -c:a libopus -b:a 64k "${opusFilePath}"`;
-            console.log(`[${sessionId}] DEBUG: Exécution de la commande FFmpeg pour Opus: ${ffmpegOpusCommand}`);
+            // Convertir chaque chunk base64 en buffer, PUIS concaténer les buffers.
+            const bufferChunks = session.chunks.map(chunk => Buffer.from(chunk, 'base64'));
+            console.log(`[${sessionId}] DEBUG: Nombre de buffers binaires à assembler: ${bufferChunks.length}`);
+            
+            const pcmBuffer = Buffer.concat(bufferChunks);
+            console.log(`[${sessionId}] DEBUG: Taille du buffer binaire (PCM) après assemblage: ${pcmBuffer.length}`);
 
-            exec(ffmpegOpusCommand, (opusError, opusStdout, opusStderr) => {
-                if (opusError) {
-                    console.error(`[${sessionId}] Erreur FFmpeg Opus: ${opusError.message}`);
-                    res.status(500).json({ message: "Erreur lors de la compression Opus." });
+            // Créer l'en-tête WAV en utilisant les paramètres de notre flux
+            const wavHeader = createWavHeader(pcmBuffer.length, 16000, 1, 16);
+            console.log(`[${sessionId}] DEBUG: Taille de l\'en-tête WAV: ${wavHeader.length}`);
+
+            // Concaténer l'en-tête et les données PCM
+            const wavBuffer = Buffer.concat([wavHeader, pcmBuffer]);
+            console.log(`[${sessionId}] DEBUG: Taille du buffer final WAV (Header + PCM): ${wavBuffer.length}`);
+
+            const filePath = path.join(uploadsDir, `${sessionId}.wav`);
+
+            fs.writeFileSync(filePath, wavBuffer);
+            console.log(`[${sessionId}] Fichier WAV assemblé et sauvegardé: ${filePath}`);
+
+            // --- Étape de nettoyage avec FFmpeg ---
+            const cleanedFilePath = path.join(uploadsDir, `${sessionId}-cleaned.wav`);
+            const ffmpegCommand = `ffmpeg -i "${filePath}" -af "afftdn" "${cleanedFilePath}"`;
+            console.log(`[${sessionId}] DEBUG: Exécution de la commande FFmpeg: ${ffmpegCommand}`);
+
+            exec(ffmpegCommand, (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`[${sessionId}] Erreur FFmpeg: ${error.message}`);
+                    // Gérer l'erreur, peut-être supprimer les fichiers partiels
                     return;
                 }
-                if (opusStderr) {
-                    console.warn(`[${sessionId}] FFmpeg Opus Avertissement: ${opusStderr}`);
+                if (stderr) {
+                    console.warn(`[${sessionId}] FFmpeg Avertissement: ${stderr}`);
                 }
-                console.log(`[${sessionId}] Fichier Opus sauvegardé: ${opusFilePath}`);
-                console.log(`[${sessionId}] FFmpeg Opus Output: ${opusStdout}`);
+                console.log(`[${sessionId}] Fichier nettoyé sauvegardé: ${cleanedFilePath}`);
+                console.log(`[${sessionId}] FFmpeg Output: ${stdout}`);
 
-                // Envoyer la réponse finale UNIQUEMENT après toutes les opérations FFmpeg
-                delete sessions[sessionId];
-                res.status(200).json({ message: "Session complète, fichier WAV créé, nettoyé et compressé en Opus.", finalPath: filePath, cleanedPath: cleanedFilePath, opusPath: opusFilePath });
+                // --- Étape de compression Opus avec FFmpeg ---
+                const opusFilePath = path.join(uploadsDir, `${sessionId}-cleaned.opus`);
+                const ffmpegOpusCommand = `ffmpeg -i "${cleanedFilePath}" -c:a libopus -b:a 64k "${opusFilePath}"`;
+                console.log(`[${sessionId}] DEBUG: Exécution de la commande FFmpeg pour Opus: ${ffmpegOpusCommand}`);
+
+                exec(ffmpegOpusCommand, (opusError, opusStdout, opusStderr) => {
+                    if (opusError) {
+                        console.error(`[${sessionId}] Erreur FFmpeg Opus: ${opusError.message}`);
+                        // Gérer l'erreur
+                        return;
+                    }
+                    if (opusStderr) {
+                        console.warn(`[${sessionId}] FFmpeg Opus Avertissement: ${opusStderr}`);
+                    }
+                    console.log(`[${sessionId}] Fichier Opus sauvegardé: ${opusFilePath}`);
+                    console.log(`[${sessionId}] FFmpeg Opus Output: ${opusStdout}`);
+
+                    // Envoyer la réponse finale UNIQUEMENT après toutes les opérations FFmpeg
+                    delete sessions[sessionId];
+                    // La réponse au frontend est déjà envoyée par le premier res.status(200).json
+                    // Nous ne pouvons pas envoyer une autre réponse ici.
+                    // Le frontend devra se fier au fait que le traitement est lancé.
+                    // Si le frontend a besoin d'une confirmation finale, il faudrait un mécanisme de polling ou WebSocket.
+                    // Pour l'instant, on se contente de logguer la fin du traitement.
+                    console.log(`[${sessionId}] Traitement final terminé.`);
+                });
             });
-        });
+        }, 100); // Petit délai pour s'assurer que le dernier chunk est bien traité
 
-    } else {
-        res.status(200).json({ message: `Fragment ${chunkIndex} reçu.` });
+        // Répondre immédiatement au signal de fin de stream pour ne pas bloquer le frontend
+        // Le frontend devra se fier aux logs du backend pour la confirmation finale du traitement
+        res.status(200).json({ message: "Signal de fin de stream reçu. Traitement lancé en arrière-plan." });
     }
 });
 

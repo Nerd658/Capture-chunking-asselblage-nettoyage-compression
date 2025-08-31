@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Button, Alert, PermissionsAndroid, Platform } from 'react-native';
 import LiveAudioStream from 'react-native-live-audio-stream';
@@ -5,7 +6,12 @@ import LiveAudioStream from 'react-native-live-audio-stream';
 export default function App() {
     const [isListening, setIsListening] = useState(false);
     const [status, setStatus] = useState("Prêt");
-    const audioChunks = useRef<string[]>([]);
+    
+    const sessionId = useRef<string | null>(null);
+    const chunkIndexCounter = useRef(0);
+    const audioQueue = useRef<string[]>([]); // File d'attente des chunks à envoyer
+    const isSending = useRef(false); // Pour éviter les envois multiples en parallèle
+    const sendIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         async function requestMicPermission() {
@@ -23,75 +29,115 @@ export default function App() {
         requestMicPermission();
 
         LiveAudioStream.on('data', (data: string) => {
-            console.log(`Fragment reçu, taille: ${data.length}`); // Log de diagnostic
-            audioChunks.current.push(data);
+            // Chaque fragment reçu est ajouté à la file d'attente
+            audioQueue.current.push(data);
         });
 
         return () => {
             LiveAudioStream.stop();
+            if (sendIntervalRef.current) {
+                clearInterval(sendIntervalRef.current);
+            }
         };
     }, []);
 
-    const startListening = () => {
-        console.log("Démarrage de l'écoute...");
-        audioChunks.current = [];
-        setIsListening(true);
-        setStatus("Écoute en cours...");
-        const options = { sampleRate: 16000, channels: 1, bitsPerSample: 16, audioSource: 6, bufferSize: 4096 };
-        LiveAudioStream.init(options);
-        LiveAudioStream.start();
-    };
+    const sendChunkToBackend = async (chunk: string, isEndOfStream: boolean = false) => {
+        const currentSessionId = sessionId.current;
+        if (!currentSessionId) return; // Ne devrait pas arriver en mode écoute
 
-    const stopAndSendChunks = async () => {
-        console.log("Arrêt de l'écoute.");
-        LiveAudioStream.stop();
-        setIsListening(false);
-        setStatus(`Terminé. ${audioChunks.current.length} fragments capturés.`);
-
-        if (audioChunks.current.length === 0) {
-            Alert.alert("Rien à envoyer", "Aucun audio n'a été capturé.");
-            return;
-        }
-
-        console.log("--- DÉBUT DE L'ENVOI DES FRAGMENTS ---");
-        const sessionId = `session-${Date.now()}`;
-        const totalChunks = audioChunks.current.length;
+        const currentChunkIndex = chunkIndexCounter.current++;
         const backendURL = 'http://172.20.5.0:3000/stream-chunk';
 
         try {
-            for (let i = 0; i < totalChunks; i++) {
-                const chunk = audioChunks.current[i];
-                const statusText = `Envoi du fragment ${i + 1} / ${totalChunks}`;
-                console.log(statusText);
-                setStatus(statusText);
+            const response = await fetch(backendURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sessionId: currentSessionId,
+                    chunkIndex: currentChunkIndex,
+                    data: chunk,
+                    isEndOfStream: isEndOfStream,
+                }),
+            });
 
-                const response = await fetch(backendURL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        sessionId: sessionId,
-                        chunkIndex: i,
-                        totalChunks: totalChunks,
-                        data: chunk,
-                    }),
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`Erreur du serveur pour le fragment ${i}: ${response.status} - ${errorText}`);
-                }
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Erreur serveur pour le fragment ${currentChunkIndex}: ${response.status} - ${errorText}`);
             }
-
-            console.log("--- TOUS LES FRAGMENTS ONT ÉTÉ ENVOYÉS ---");
-            Alert.alert("Succès", "Tous les fragments ont été envoyés avec succès !");
-            setStatus("Terminé et envoyé !");
+            console.log(`Fragment ${currentChunkIndex} envoyé. isEndOfStream: ${isEndOfStream}`);
+            return response.json(); // Retourne la réponse du backend
 
         } catch (error) {
-            console.error("Échec de l'envoi des fragments :", error);
-            Alert.alert("Échec de l'envoi", `Une erreur est survenue: ${error.message}`);
-            setStatus("Erreur lors de l'envoi.");
+            console.error(`Échec de l'envoi du fragment ${currentChunkIndex}:`, error);
+            setStatus(`Erreur envoi fragment ${currentChunkIndex}`);
+            throw error; // Propager l'erreur pour la gestion dans stopListening
+        }
+    };
+
+    const processQueue = async () => {
+        if (isSending.current || audioQueue.current.length === 0) {
+            return; // Déjà en cours d'envoi ou rien à envoyer
+        }
+
+        isSending.current = true;
+        const chunkToSend = audioQueue.current.shift(); // Prend le premier chunk de la file
+
+        if (chunkToSend) {
+            try {
+                await sendChunkToBackend(chunkToSend);
+            } catch (error) {
+                // Gérer l'erreur, peut-être remettre le chunk dans la file ou réessayer
+                console.error("Erreur lors du traitement de la file:", error);
+            } finally {
+                isSending.current = false;
+            }
+        }
+    };
+
+    const startListening = () => {
+        console.log("Démarrage de l'écoute...");
+        sessionId.current = `session-${Date.now()}`;
+        chunkIndexCounter.current = 0;
+        audioQueue.current = [];
+        isSending.current = false;
+        setIsListening(true);
+        setStatus("Écoute en cours...");
+
+        const options = { sampleRate: 16000, channels: 1, bitsPerSample: 16, audioSource: 6, bufferSize: 4096 };
+        LiveAudioStream.init(options);
+        LiveAudioStream.start();
+
+        // Démarrer l'intervalle d'envoi des chunks
+        sendIntervalRef.current = setInterval(processQueue, 100); // Envoie un chunk toutes les 100ms
+    };
+
+    const stopListening = async () => {
+        console.log("Arrêt de l'écoute demandé.");
+        LiveAudioStream.stop();
+        setIsListening(false);
+        if (sendIntervalRef.current) {
+            clearInterval(sendIntervalRef.current);
+            sendIntervalRef.current = null;
+        }
+        setStatus("Finalisation de l'envoi...");
+
+        // Attendre que tous les chunks restants dans la file soient envoyés
+        while (audioQueue.current.length > 0 || isSending.current) {
+            await new Promise(resolve => setTimeout(resolve, 50)); // Attendre un court instant
+            await processQueue(); // Tenter d'envoyer le prochain chunk
+        }
+
+        // Envoyer le signal de fin de stream
+        try {
+            console.log("Envoi du signal de fin de stream...");
+            const finalResponse = await sendChunkToBackend('', true); // Envoyer un chunk vide avec isEndOfStream: true
+            console.log("Réponse finale du backend:", finalResponse);
+            Alert.alert("Succès", "Enregistrement terminé et traité !");
+            setStatus("Terminé et traité !");
+        } catch (error) {
+            console.error("Erreur lors de l'envoi du signal de fin:", error);
+            Alert.alert("Erreur", `Échec de la finalisation: ${error.message}`);
+            setStatus("Erreur de finalisation.");
         }
     };
 
@@ -101,8 +147,8 @@ export default function App() {
             <Text style={styles.statusText}>{status}</Text>
             <View style={styles.spacer} />
             <Button
-                title={isListening ? "Arrêter et Envoyer" : "Démarrer l'écoute"}
-                onPress={isListening ? stopAndSendChunks : startListening}
+                title={isListening ? "Arrêter" : "Démarrer l'écoute"}
+                onPress={isListening ? stopListening : startListening}
                 color={isListening ? 'red' : 'green'}
             />
         </View>
