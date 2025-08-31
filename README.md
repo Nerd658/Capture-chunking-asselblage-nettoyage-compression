@@ -9,6 +9,7 @@ Ce projet implémente une application mobile (React Native avec Expo) capable de
 - Assemblage robuste des fragments audio sur le backend.
 - Conversion de l'audio assemblé en fichier WAV standard.
 - Réduction de bruit appliquée au fichier WAV via FFmpeg.
+- **Compression de l'audio nettoyé en format Opus via FFmpeg.**
 - Pipeline de traitement audio entièrement fonctionnel et testé.
 
 ## Architecture
@@ -89,7 +90,7 @@ La première fois, cette commande compilera une version personnalisée de l'appl
 3.  Appuyez sur le bouton **"Démarrer l'écoute"**.
 4.  Parlez dans le microphone de votre appareil.
 5.  Appuyez sur le bouton **"Arrêter et Envoyer"**.
-6.  Le backend recevra les fragments, les assemblera, créera un fichier WAV original et un fichier WAV nettoyé par FFmpeg dans le dossier `backend-audio/uploads/`.
+6.  Le backend recevra les fragments, les assemblera, créera un fichier WAV original, un fichier WAV nettoyé par FFmpeg et un fichier Opus compressé dans le dossier `backend-audio/uploads/`.
 
 ## Dépannage
 *   **`SDK location not found` / Erreurs de build Android :** Assurez-vous que votre `ANDROID_HOME` est configuré ou que `sdk.dir` est correctement défini dans `MonProjetAudio/android/local.properties`.
@@ -99,4 +100,3 @@ La première fois, cette commande compilera une version personnalisée de l'appl
 
 ## Prochaines Étapes (Non implémentées)
 - Intégration d'un VAD (Voice Activity Detection) pour filtrer les silences avant l'envoi au backend.
-- Compression de l'audio au format Opus.
