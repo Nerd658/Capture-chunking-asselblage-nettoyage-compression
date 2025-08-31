@@ -105,6 +105,7 @@ app.post('/stream-chunk', (req, res) => {
         exec(ffmpegCommand, (error, stdout, stderr) => {
             if (error) {
                 console.error(`[${sessionId}] Erreur FFmpeg: ${error.message}`);
+                res.status(500).json({ message: "Erreur lors du nettoyage audio." });
                 return;
             }
             if (stderr) {
@@ -112,10 +113,29 @@ app.post('/stream-chunk', (req, res) => {
             }
             console.log(`[${sessionId}] Fichier nettoyé sauvegardé: ${cleanedFilePath}`);
             console.log(`[${sessionId}] FFmpeg Output: ${stdout}`);
-        });
 
-        delete sessions[sessionId];
-        res.status(200).json({ message: "Session complète, fichier WAV créé et nettoyage lancé.", finalPath: filePath, cleanedPath: cleanedFilePath });
+            // --- Étape de compression Opus avec FFmpeg ---
+            const opusFilePath = path.join(uploadsDir, `${sessionId}-cleaned.opus`);
+            const ffmpegOpusCommand = `ffmpeg -i "${cleanedFilePath}" -c:a libopus -b:a 64k "${opusFilePath}"`;
+            console.log(`[${sessionId}] DEBUG: Exécution de la commande FFmpeg pour Opus: ${ffmpegOpusCommand}`);
+
+            exec(ffmpegOpusCommand, (opusError, opusStdout, opusStderr) => {
+                if (opusError) {
+                    console.error(`[${sessionId}] Erreur FFmpeg Opus: ${opusError.message}`);
+                    res.status(500).json({ message: "Erreur lors de la compression Opus." });
+                    return;
+                }
+                if (opusStderr) {
+                    console.warn(`[${sessionId}] FFmpeg Opus Avertissement: ${opusStderr}`);
+                }
+                console.log(`[${sessionId}] Fichier Opus sauvegardé: ${opusFilePath}`);
+                console.log(`[${sessionId}] FFmpeg Opus Output: ${opusStdout}`);
+
+                // Envoyer la réponse finale UNIQUEMENT après toutes les opérations FFmpeg
+                delete sessions[sessionId];
+                res.status(200).json({ message: "Session complète, fichier WAV créé, nettoyé et compressé en Opus.", finalPath: filePath, cleanedPath: cleanedFilePath, opusPath: opusFilePath });
+            });
+        });
 
     } else {
         res.status(200).json({ message: `Fragment ${chunkIndex} reçu.` });

@@ -1,73 +1,137 @@
-
 C:\Users\Asus\Desktop\projet-audio\backend-audio>node server.js
 Serveur backend démarré et à l'écoute sur http://0.0.0.0:3000
 Attente des fragments audio sur /stream-chunk...
-[session-1756647837796] Nouvelle session démarrée. Total de fragments attendus: 56
-[session-1756647837796] Fragment 1/56 reçu. Progrès: 1/56
-[session-1756647837796] Fragment 2/56 reçu. Progrès: 2/56
-[session-1756647837796] Fragment 3/56 reçu. Progrès: 3/56
-[session-1756647837796] Fragment 4/56 reçu. Progrès: 4/56
-[session-1756647837796] Fragment 5/56 reçu. Progrès: 5/56
-[session-1756647837796] Fragment 6/56 reçu. Progrès: 6/56
-[session-1756647837796] Fragment 7/56 reçu. Progrès: 7/56
-[session-1756647837796] Fragment 8/56 reçu. Progrès: 8/56
-[session-1756647837796] Fragment 9/56 reçu. Progrès: 9/56
-[session-1756647837796] Fragment 10/56 reçu. Progrès: 10/56
-[session-1756647837796] Fragment 11/56 reçu. Progrès: 11/56
-[session-1756647837796] Fragment 12/56 reçu. Progrès: 12/56
-[session-1756647837796] Fragment 13/56 reçu. Progrès: 13/56
-[session-1756647837796] Fragment 14/56 reçu. Progrès: 14/56
-[session-1756647837796] Fragment 15/56 reçu. Progrès: 15/56
-[session-1756647837796] Fragment 16/56 reçu. Progrès: 16/56
-[session-1756647837796] Fragment 17/56 reçu. Progrès: 17/56
-[session-1756647837796] Fragment 18/56 reçu. Progrès: 18/56
-[session-1756647837796] Fragment 19/56 reçu. Progrès: 19/56
-[session-1756647837796] Fragment 20/56 reçu. Progrès: 20/56
-[session-1756647837796] Fragment 21/56 reçu. Progrès: 21/56
-[session-1756647837796] Fragment 22/56 reçu. Progrès: 22/56
-[session-1756647837796] Fragment 23/56 reçu. Progrès: 23/56
-[session-1756647837796] Fragment 24/56 reçu. Progrès: 24/56
-[session-1756647837796] Fragment 25/56 reçu. Progrès: 25/56
-[session-1756647837796] Fragment 26/56 reçu. Progrès: 26/56
-[session-1756647837796] Fragment 27/56 reçu. Progrès: 27/56
-[session-1756647837796] Fragment 28/56 reçu. Progrès: 28/56
-[session-1756647837796] Fragment 29/56 reçu. Progrès: 29/56
-[session-1756647837796] Fragment 30/56 reçu. Progrès: 30/56
-[session-1756647837796] Fragment 31/56 reçu. Progrès: 31/56
-[session-1756647837796] Fragment 32/56 reçu. Progrès: 32/56
-[session-1756647837796] Fragment 33/56 reçu. Progrès: 33/56
-[session-1756647837796] Fragment 34/56 reçu. Progrès: 34/56
-[session-1756647837796] Fragment 35/56 reçu. Progrès: 35/56
-[session-1756647837796] Fragment 36/56 reçu. Progrès: 36/56
-[session-1756647837796] Fragment 37/56 reçu. Progrès: 37/56
-[session-1756647837796] Fragment 38/56 reçu. Progrès: 38/56
-[session-1756647837796] Fragment 39/56 reçu. Progrès: 39/56
-[session-1756647837796] Fragment 40/56 reçu. Progrès: 40/56
-[session-1756647837796] Fragment 41/56 reçu. Progrès: 41/56
-[session-1756647837796] Fragment 42/56 reçu. Progrès: 42/56
-[session-1756647837796] Fragment 43/56 reçu. Progrès: 43/56
-[session-1756647837796] Fragment 44/56 reçu. Progrès: 44/56
-[session-1756647837796] Fragment 45/56 reçu. Progrès: 45/56
-[session-1756647837796] Fragment 46/56 reçu. Progrès: 46/56
-[session-1756647837796] Fragment 47/56 reçu. Progrès: 47/56
-[session-1756647837796] Fragment 48/56 reçu. Progrès: 48/56
-[session-1756647837796] Fragment 49/56 reçu. Progrès: 49/56
-[session-1756647837796] Fragment 50/56 reçu. Progrès: 50/56
-[session-1756647837796] Fragment 51/56 reçu. Progrès: 51/56
-[session-1756647837796] Fragment 52/56 reçu. Progrès: 52/56
-[session-1756647837796] Fragment 53/56 reçu. Progrès: 53/56
-[session-1756647837796] Fragment 54/56 reçu. Progrès: 54/56
-[session-1756647837796] Fragment 55/56 reçu. Progrès: 55/56
-[session-1756647837796] Fragment 56/56 reçu. Progrès: 56/56
-[session-1756647837796] Tous les fragments reçus. Assemblage et conversion en WAV...
-[session-1756647837796] DEBUG: Nombre de buffers binaires à assembler: 56
-[session-1756647837796] DEBUG: Taille du buffer binaire (PCM) après assemblage: 229376
-[session-1756647837796] DEBUG: Taille de l'en-tête WAV: 44
-[session-1756647837796] DEBUG: Taille du buffer final WAV (Header + PCM): 229420
-[session-1756647837796] Fichier WAV assemblé et sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756647837796.wav
-[session-1756647837796] DEBUG: Exécution de la commande FFmpeg: ffmpeg -i "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756647837796.wav" -af "afftdn" "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756647837796-cleaned.wav"
-ReferenceError: exec is not defined
-    at C:\Users\Asus\Desktop\projet-audio\backend-audio\server.js:104:9
+[session-1756649440291] Nouvelle session démarrée. Total de fragments attendus: 121
+[session-1756649440291] Fragment 1/121 reçu. Progrès: 1/121
+[session-1756649440291] Fragment 2/121 reçu. Progrès: 2/121
+[session-1756649440291] Fragment 3/121 reçu. Progrès: 3/121
+[session-1756649440291] Fragment 4/121 reçu. Progrès: 4/121
+[session-1756649440291] Fragment 5/121 reçu. Progrès: 5/121
+[session-1756649440291] Fragment 6/121 reçu. Progrès: 6/121
+[session-1756649440291] Fragment 7/121 reçu. Progrès: 7/121
+[session-1756649440291] Fragment 8/121 reçu. Progrès: 8/121
+[session-1756649440291] Fragment 9/121 reçu. Progrès: 9/121
+[session-1756649440291] Fragment 10/121 reçu. Progrès: 10/121
+[session-1756649440291] Fragment 11/121 reçu. Progrès: 11/121
+[session-1756649440291] Fragment 12/121 reçu. Progrès: 12/121
+[session-1756649440291] Fragment 13/121 reçu. Progrès: 13/121
+[session-1756649440291] Fragment 14/121 reçu. Progrès: 14/121
+[session-1756649440291] Fragment 15/121 reçu. Progrès: 15/121
+[session-1756649440291] Fragment 16/121 reçu. Progrès: 16/121
+[session-1756649440291] Fragment 17/121 reçu. Progrès: 17/121
+[session-1756649440291] Fragment 18/121 reçu. Progrès: 18/121
+[session-1756649440291] Fragment 19/121 reçu. Progrès: 19/121
+[session-1756649440291] Fragment 20/121 reçu. Progrès: 20/121
+[session-1756649440291] Fragment 21/121 reçu. Progrès: 21/121
+[session-1756649440291] Fragment 22/121 reçu. Progrès: 22/121
+[session-1756649440291] Fragment 23/121 reçu. Progrès: 23/121
+[session-1756649440291] Fragment 24/121 reçu. Progrès: 24/121
+[session-1756649440291] Fragment 25/121 reçu. Progrès: 25/121
+[session-1756649440291] Fragment 26/121 reçu. Progrès: 26/121
+[session-1756649440291] Fragment 27/121 reçu. Progrès: 27/121
+[session-1756649440291] Fragment 28/121 reçu. Progrès: 28/121
+[session-1756649440291] Fragment 29/121 reçu. Progrès: 29/121
+[session-1756649440291] Fragment 30/121 reçu. Progrès: 30/121
+[session-1756649440291] Fragment 31/121 reçu. Progrès: 31/121
+[session-1756649440291] Fragment 32/121 reçu. Progrès: 32/121
+[session-1756649440291] Fragment 33/121 reçu. Progrès: 33/121
+[session-1756649440291] Fragment 34/121 reçu. Progrès: 34/121
+[session-1756649440291] Fragment 35/121 reçu. Progrès: 35/121
+[session-1756649440291] Fragment 36/121 reçu. Progrès: 36/121
+[session-1756649440291] Fragment 37/121 reçu. Progrès: 37/121
+[session-1756649440291] Fragment 38/121 reçu. Progrès: 38/121
+[session-1756649440291] Fragment 39/121 reçu. Progrès: 39/121
+[session-1756649440291] Fragment 40/121 reçu. Progrès: 40/121
+[session-1756649440291] Fragment 41/121 reçu. Progrès: 41/121
+[session-1756649440291] Fragment 42/121 reçu. Progrès: 42/121
+[session-1756649440291] Fragment 43/121 reçu. Progrès: 43/121
+[session-1756649440291] Fragment 44/121 reçu. Progrès: 44/121
+[session-1756649440291] Fragment 45/121 reçu. Progrès: 45/121
+[session-1756649440291] Fragment 46/121 reçu. Progrès: 46/121
+[session-1756649440291] Fragment 47/121 reçu. Progrès: 47/121
+[session-1756649440291] Fragment 48/121 reçu. Progrès: 48/121
+[session-1756649440291] Fragment 49/121 reçu. Progrès: 49/121
+[session-1756649440291] Fragment 50/121 reçu. Progrès: 50/121
+[session-1756649440291] Fragment 51/121 reçu. Progrès: 51/121
+[session-1756649440291] Fragment 52/121 reçu. Progrès: 52/121
+[session-1756649440291] Fragment 53/121 reçu. Progrès: 53/121
+[session-1756649440291] Fragment 54/121 reçu. Progrès: 54/121
+[session-1756649440291] Fragment 55/121 reçu. Progrès: 55/121
+[session-1756649440291] Fragment 56/121 reçu. Progrès: 56/121
+[session-1756649440291] Fragment 57/121 reçu. Progrès: 57/121
+[session-1756649440291] Fragment 58/121 reçu. Progrès: 58/121
+[session-1756649440291] Fragment 59/121 reçu. Progrès: 59/121
+[session-1756649440291] Fragment 60/121 reçu. Progrès: 60/121
+[session-1756649440291] Fragment 61/121 reçu. Progrès: 61/121
+[session-1756649440291] Fragment 62/121 reçu. Progrès: 62/121
+[session-1756649440291] Fragment 63/121 reçu. Progrès: 63/121
+[session-1756649440291] Fragment 64/121 reçu. Progrès: 64/121
+[session-1756649440291] Fragment 65/121 reçu. Progrès: 65/121
+[session-1756649440291] Fragment 66/121 reçu. Progrès: 66/121
+[session-1756649440291] Fragment 67/121 reçu. Progrès: 67/121
+[session-1756649440291] Fragment 68/121 reçu. Progrès: 68/121
+[session-1756649440291] Fragment 69/121 reçu. Progrès: 69/121
+[session-1756649440291] Fragment 70/121 reçu. Progrès: 70/121
+[session-1756649440291] Fragment 71/121 reçu. Progrès: 71/121
+[session-1756649440291] Fragment 72/121 reçu. Progrès: 72/121
+[session-1756649440291] Fragment 73/121 reçu. Progrès: 73/121
+[session-1756649440291] Fragment 74/121 reçu. Progrès: 74/121
+[session-1756649440291] Fragment 75/121 reçu. Progrès: 75/121
+[session-1756649440291] Fragment 76/121 reçu. Progrès: 76/121
+[session-1756649440291] Fragment 77/121 reçu. Progrès: 77/121
+[session-1756649440291] Fragment 78/121 reçu. Progrès: 78/121
+[session-1756649440291] Fragment 79/121 reçu. Progrès: 79/121
+[session-1756649440291] Fragment 80/121 reçu. Progrès: 80/121
+[session-1756649440291] Fragment 81/121 reçu. Progrès: 81/121
+[session-1756649440291] Fragment 82/121 reçu. Progrès: 82/121
+[session-1756649440291] Fragment 83/121 reçu. Progrès: 83/121
+[session-1756649440291] Fragment 84/121 reçu. Progrès: 84/121
+[session-1756649440291] Fragment 85/121 reçu. Progrès: 85/121
+[session-1756649440291] Fragment 86/121 reçu. Progrès: 86/121
+[session-1756649440291] Fragment 87/121 reçu. Progrès: 87/121
+[session-1756649440291] Fragment 88/121 reçu. Progrès: 88/121
+[session-1756649440291] Fragment 89/121 reçu. Progrès: 89/121
+[session-1756649440291] Fragment 90/121 reçu. Progrès: 90/121
+[session-1756649440291] Fragment 91/121 reçu. Progrès: 91/121
+[session-1756649440291] Fragment 92/121 reçu. Progrès: 92/121
+[session-1756649440291] Fragment 93/121 reçu. Progrès: 93/121
+[session-1756649440291] Fragment 94/121 reçu. Progrès: 94/121
+[session-1756649440291] Fragment 95/121 reçu. Progrès: 95/121
+[session-1756649440291] Fragment 96/121 reçu. Progrès: 96/121
+[session-1756649440291] Fragment 97/121 reçu. Progrès: 97/121
+[session-1756649440291] Fragment 98/121 reçu. Progrès: 98/121
+[session-1756649440291] Fragment 99/121 reçu. Progrès: 99/121
+[session-1756649440291] Fragment 100/121 reçu. Progrès: 100/121
+[session-1756649440291] Fragment 101/121 reçu. Progrès: 101/121
+[session-1756649440291] Fragment 102/121 reçu. Progrès: 102/121
+[session-1756649440291] Fragment 103/121 reçu. Progrès: 103/121
+[session-1756649440291] Fragment 104/121 reçu. Progrès: 104/121
+[session-1756649440291] Fragment 105/121 reçu. Progrès: 105/121
+[session-1756649440291] Fragment 106/121 reçu. Progrès: 106/121
+[session-1756649440291] Fragment 107/121 reçu. Progrès: 107/121
+[session-1756649440291] Fragment 108/121 reçu. Progrès: 108/121
+[session-1756649440291] Fragment 109/121 reçu. Progrès: 109/121
+[session-1756649440291] Fragment 110/121 reçu. Progrès: 110/121
+[session-1756649440291] Fragment 111/121 reçu. Progrès: 111/121
+[session-1756649440291] Fragment 112/121 reçu. Progrès: 112/121
+[session-1756649440291] Fragment 113/121 reçu. Progrès: 113/121
+[session-1756649440291] Fragment 114/121 reçu. Progrès: 114/121
+[session-1756649440291] Fragment 115/121 reçu. Progrès: 115/121
+[session-1756649440291] Fragment 116/121 reçu. Progrès: 116/121
+[session-1756649440291] Fragment 117/121 reçu. Progrès: 117/121
+[session-1756649440291] Fragment 118/121 reçu. Progrès: 118/121
+[session-1756649440291] Fragment 119/121 reçu. Progrès: 119/121
+[session-1756649440291] Fragment 120/121 reçu. Progrès: 120/121
+[session-1756649440291] Fragment 121/121 reçu. Progrès: 121/121
+[session-1756649440291] Tous les fragments reçus. Assemblage et conversion en WAV...
+[session-1756649440291] DEBUG: Nombre de buffers binaires à assembler: 121
+[session-1756649440291] DEBUG: Taille du buffer binaire (PCM) après assemblage: 495616
+[session-1756649440291] DEBUG: Taille de l'en-tête WAV: 44
+[session-1756649440291] DEBUG: Taille du buffer final WAV (Header + PCM): 495660
+[session-1756649440291] Fichier WAV assemblé et sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291.wav
+[session-1756649440291] DEBUG: Exécution de la commande FFmpeg: ffmpeg -i "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291.wav" -af "afftdn" "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.wav"
+ReferenceError: opusFilePath is not defined
+    at C:\Users\Asus\Desktop\projet-audio\backend-audio\server.js:135:179
     at Layer.handleRequest (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\layer.js:152:17)
     at next (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\route.js:157:13)
     at Route.dispatch (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\route.js:117:3)
@@ -77,3 +141,62 @@ ReferenceError: exec is not defined
     at processParams (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\index.js:582:12)
     at next (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\index.js:291:5)
     at C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\body-parser\lib\read.js:132:5
+[session-1756649440291] FFmpeg Avertissement: ffmpeg version 8.0-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60.  8.100 / 60.  8.100
+  libavcodec     62. 11.100 / 62. 11.100
+  libavformat    62.  3.100 / 62.  3.100
+  libavdevice    62.  1.100 / 62.  1.100
+  libavfilter    11.  4.100 / 11.  4.100
+  libswscale      9.  1.100 /  9.  1.100
+  libswresample   6.  1.100 /  6.  1.100
+[aist#0:0/pcm_s16le @ 0000011cdbf2f0c0] Guessed Channel Layout: mono
+Input #0, wav, from 'C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291.wav':
+  Duration: 00:00:15.49, bitrate: 256 kb/s
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 16000 Hz, mono, s16, 256 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_s16le (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, wav, to 'C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.wav':
+  Metadata:
+    ISFT            : Lavf62.3.100
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 16000 Hz, mono, s16, 256 kb/s
+    Metadata:
+      encoder         : Lavc62.11.100 pcm_s16le
+[out#0/wav @ 0000011cdbf2c9c0] video:0KiB audio:484KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.015738%
+size=     484KiB time=00:00:15.48 bitrate= 256.0kbits/s speed= 335x elapsed=0:00:00.04
+
+[session-1756649440291] Fichier nettoyé sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.wav
+[session-1756649440291] FFmpeg Output:
+[session-1756649440291] DEBUG: Exécution de la commande FFmpeg pour Opus: ffmpeg -i "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.wav" -c:a libopus -b:a 64k "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.opus"
+[session-1756649440291] FFmpeg Opus Avertissement: ffmpeg version 8.0-essentials_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-openal --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      60.  8.100 / 60.  8.100
+  libavcodec     62. 11.100 / 62. 11.100
+  libavformat    62.  3.100 / 62.  3.100
+  libavdevice    62.  1.100 / 62.  1.100
+  libavfilter    11.  4.100 / 11.  4.100
+  libswscale      9.  1.100 /  9.  1.100
+  libswresample   6.  1.100 /  6.  1.100
+[aist#0:0/pcm_s16le @ 000001d7b09ef100] Guessed Channel Layout: mono
+Input #0, wav, from 'C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.wav':
+  Metadata:
+    encoder         : Lavf62.3.100
+  Duration: 00:00:15.49, bitrate: 256 kb/s
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 16000 Hz, mono, s16, 256 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_s16le (native) -> opus (libopus))
+Press [q] to stop, [?] for help
+Output #0, opus, to 'C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.opus':
+  Metadata:
+    encoder         : Lavf62.3.100
+  Stream #0:0: Audio: opus, 16000 Hz, mono, s16, 64 kb/s
+    Metadata:
+      encoder         : Lavc62.11.100 libopus
+[out#0/opus @ 000001d7b09eca40] video:0KiB audio:127KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 1.046102%
+size=     128KiB time=00:00:15.48 bitrate=  67.9kbits/s speed= 233x elapsed=0:00:00.06
+
+[session-1756649440291] Fichier Opus sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756649440291-cleaned.opus
+[session-1756649440291] FFmpeg Opus Output:
