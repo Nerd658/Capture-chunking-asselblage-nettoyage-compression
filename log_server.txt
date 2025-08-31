@@ -1,55 +1,79 @@
-node server.js
+
+C:\Users\Asus\Desktop\projet-audio\backend-audio>node server.js
 Serveur backend démarré et à l'écoute sur http://0.0.0.0:3000
 Attente des fragments audio sur /stream-chunk...
-[session-1756641419636] Nouvelle session démarrée. Total de fragments attendus: 45
-[session-1756641419636] Fragment 1/45 reçu. Progrès: 1/45
-[session-1756641419636] Fragment 2/45 reçu. Progrès: 2/45
-[session-1756641419636] Fragment 3/45 reçu. Progrès: 3/45
-[session-1756641419636] Fragment 4/45 reçu. Progrès: 4/45
-[session-1756641419636] Fragment 5/45 reçu. Progrès: 5/45
-[session-1756641419636] Fragment 6/45 reçu. Progrès: 6/45
-[session-1756641419636] Fragment 7/45 reçu. Progrès: 7/45
-[session-1756641419636] Fragment 8/45 reçu. Progrès: 8/45
-[session-1756641419636] Fragment 9/45 reçu. Progrès: 9/45
-[session-1756641419636] Fragment 10/45 reçu. Progrès: 10/45
-[session-1756641419636] Fragment 11/45 reçu. Progrès: 11/45
-[session-1756641419636] Fragment 12/45 reçu. Progrès: 12/45
-[session-1756641419636] Fragment 13/45 reçu. Progrès: 13/45
-[session-1756641419636] Fragment 14/45 reçu. Progrès: 14/45
-[session-1756641419636] Fragment 15/45 reçu. Progrès: 15/45
-[session-1756641419636] Fragment 16/45 reçu. Progrès: 16/45
-[session-1756641419636] Fragment 17/45 reçu. Progrès: 17/45
-[session-1756641419636] Fragment 18/45 reçu. Progrès: 18/45
-[session-1756641419636] Fragment 19/45 reçu. Progrès: 19/45
-[session-1756641419636] Fragment 20/45 reçu. Progrès: 20/45
-[session-1756641419636] Fragment 21/45 reçu. Progrès: 21/45
-[session-1756641419636] Fragment 22/45 reçu. Progrès: 22/45
-[session-1756641419636] Fragment 23/45 reçu. Progrès: 23/45
-[session-1756641419636] Fragment 24/45 reçu. Progrès: 24/45
-[session-1756641419636] Fragment 25/45 reçu. Progrès: 25/45
-[session-1756641419636] Fragment 26/45 reçu. Progrès: 26/45
-[session-1756641419636] Fragment 27/45 reçu. Progrès: 27/45
-[session-1756641419636] Fragment 28/45 reçu. Progrès: 28/45
-[session-1756641419636] Fragment 29/45 reçu. Progrès: 29/45
-[session-1756641419636] Fragment 30/45 reçu. Progrès: 30/45
-[session-1756641419636] Fragment 31/45 reçu. Progrès: 31/45
-[session-1756641419636] Fragment 32/45 reçu. Progrès: 32/45
-[session-1756641419636] Fragment 33/45 reçu. Progrès: 33/45
-[session-1756641419636] Fragment 34/45 reçu. Progrès: 34/45
-[session-1756641419636] Fragment 35/45 reçu. Progrès: 35/45
-[session-1756641419636] Fragment 36/45 reçu. Progrès: 36/45
-[session-1756641419636] Fragment 37/45 reçu. Progrès: 37/45
-[session-1756641419636] Fragment 38/45 reçu. Progrès: 38/45
-[session-1756641419636] Fragment 39/45 reçu. Progrès: 39/45
-[session-1756641419636] Fragment 40/45 reçu. Progrès: 40/45
-[session-1756641419636] Fragment 41/45 reçu. Progrès: 41/45
-[session-1756641419636] Fragment 42/45 reçu. Progrès: 42/45
-[session-1756641419636] Fragment 43/45 reçu. Progrès: 43/45
-[session-1756641419636] Fragment 44/45 reçu. Progrès: 44/45
-[session-1756641419636] Fragment 45/45 reçu. Progrès: 45/45
-[session-1756641419636] Tous les fragments reçus. Assemblage et conversion en WAV...
-[session-1756641419636] DEBUG: Nombre de buffers binaires à assembler: 45
-[session-1756641419636] DEBUG: Taille du buffer binaire (PCM) après assemblage: 184320
-[session-1756641419636] DEBUG: Taille de l'en-tête WAV: 44
-[session-1756641419636] DEBUG: Taille du buffer final WAV (Header + PCM): 184364
-[session-1756641419636] Fichier WAV assemblé et sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756641419636.wav
+[session-1756647837796] Nouvelle session démarrée. Total de fragments attendus: 56
+[session-1756647837796] Fragment 1/56 reçu. Progrès: 1/56
+[session-1756647837796] Fragment 2/56 reçu. Progrès: 2/56
+[session-1756647837796] Fragment 3/56 reçu. Progrès: 3/56
+[session-1756647837796] Fragment 4/56 reçu. Progrès: 4/56
+[session-1756647837796] Fragment 5/56 reçu. Progrès: 5/56
+[session-1756647837796] Fragment 6/56 reçu. Progrès: 6/56
+[session-1756647837796] Fragment 7/56 reçu. Progrès: 7/56
+[session-1756647837796] Fragment 8/56 reçu. Progrès: 8/56
+[session-1756647837796] Fragment 9/56 reçu. Progrès: 9/56
+[session-1756647837796] Fragment 10/56 reçu. Progrès: 10/56
+[session-1756647837796] Fragment 11/56 reçu. Progrès: 11/56
+[session-1756647837796] Fragment 12/56 reçu. Progrès: 12/56
+[session-1756647837796] Fragment 13/56 reçu. Progrès: 13/56
+[session-1756647837796] Fragment 14/56 reçu. Progrès: 14/56
+[session-1756647837796] Fragment 15/56 reçu. Progrès: 15/56
+[session-1756647837796] Fragment 16/56 reçu. Progrès: 16/56
+[session-1756647837796] Fragment 17/56 reçu. Progrès: 17/56
+[session-1756647837796] Fragment 18/56 reçu. Progrès: 18/56
+[session-1756647837796] Fragment 19/56 reçu. Progrès: 19/56
+[session-1756647837796] Fragment 20/56 reçu. Progrès: 20/56
+[session-1756647837796] Fragment 21/56 reçu. Progrès: 21/56
+[session-1756647837796] Fragment 22/56 reçu. Progrès: 22/56
+[session-1756647837796] Fragment 23/56 reçu. Progrès: 23/56
+[session-1756647837796] Fragment 24/56 reçu. Progrès: 24/56
+[session-1756647837796] Fragment 25/56 reçu. Progrès: 25/56
+[session-1756647837796] Fragment 26/56 reçu. Progrès: 26/56
+[session-1756647837796] Fragment 27/56 reçu. Progrès: 27/56
+[session-1756647837796] Fragment 28/56 reçu. Progrès: 28/56
+[session-1756647837796] Fragment 29/56 reçu. Progrès: 29/56
+[session-1756647837796] Fragment 30/56 reçu. Progrès: 30/56
+[session-1756647837796] Fragment 31/56 reçu. Progrès: 31/56
+[session-1756647837796] Fragment 32/56 reçu. Progrès: 32/56
+[session-1756647837796] Fragment 33/56 reçu. Progrès: 33/56
+[session-1756647837796] Fragment 34/56 reçu. Progrès: 34/56
+[session-1756647837796] Fragment 35/56 reçu. Progrès: 35/56
+[session-1756647837796] Fragment 36/56 reçu. Progrès: 36/56
+[session-1756647837796] Fragment 37/56 reçu. Progrès: 37/56
+[session-1756647837796] Fragment 38/56 reçu. Progrès: 38/56
+[session-1756647837796] Fragment 39/56 reçu. Progrès: 39/56
+[session-1756647837796] Fragment 40/56 reçu. Progrès: 40/56
+[session-1756647837796] Fragment 41/56 reçu. Progrès: 41/56
+[session-1756647837796] Fragment 42/56 reçu. Progrès: 42/56
+[session-1756647837796] Fragment 43/56 reçu. Progrès: 43/56
+[session-1756647837796] Fragment 44/56 reçu. Progrès: 44/56
+[session-1756647837796] Fragment 45/56 reçu. Progrès: 45/56
+[session-1756647837796] Fragment 46/56 reçu. Progrès: 46/56
+[session-1756647837796] Fragment 47/56 reçu. Progrès: 47/56
+[session-1756647837796] Fragment 48/56 reçu. Progrès: 48/56
+[session-1756647837796] Fragment 49/56 reçu. Progrès: 49/56
+[session-1756647837796] Fragment 50/56 reçu. Progrès: 50/56
+[session-1756647837796] Fragment 51/56 reçu. Progrès: 51/56
+[session-1756647837796] Fragment 52/56 reçu. Progrès: 52/56
+[session-1756647837796] Fragment 53/56 reçu. Progrès: 53/56
+[session-1756647837796] Fragment 54/56 reçu. Progrès: 54/56
+[session-1756647837796] Fragment 55/56 reçu. Progrès: 55/56
+[session-1756647837796] Fragment 56/56 reçu. Progrès: 56/56
+[session-1756647837796] Tous les fragments reçus. Assemblage et conversion en WAV...
+[session-1756647837796] DEBUG: Nombre de buffers binaires à assembler: 56
+[session-1756647837796] DEBUG: Taille du buffer binaire (PCM) après assemblage: 229376
+[session-1756647837796] DEBUG: Taille de l'en-tête WAV: 44
+[session-1756647837796] DEBUG: Taille du buffer final WAV (Header + PCM): 229420
+[session-1756647837796] Fichier WAV assemblé et sauvegardé: C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756647837796.wav
+[session-1756647837796] DEBUG: Exécution de la commande FFmpeg: ffmpeg -i "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756647837796.wav" -af "afftdn" "C:\Users\Asus\Desktop\projet-audio\backend-audio\uploads\session-1756647837796-cleaned.wav"
+ReferenceError: exec is not defined
+    at C:\Users\Asus\Desktop\projet-audio\backend-audio\server.js:104:9
+    at Layer.handleRequest (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\index.js:295:15
+    at processParams (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\index.js:582:12)
+    at next (C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\router\index.js:291:5)
+    at C:\Users\Asus\Desktop\projet-audio\backend-audio\node_modules\body-parser\lib\read.js:132:5

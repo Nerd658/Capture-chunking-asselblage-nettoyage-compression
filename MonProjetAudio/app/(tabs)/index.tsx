@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Button, Alert, PermissionsAndroid, Platform } from 'react-native';
 import LiveAudioStream from 'react-native-live-audio-stream';

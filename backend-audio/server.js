@@ -3,6 +3,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const { exec } = require('child_process');
 
 const app = express();
 const port = 3000;
@@ -96,8 +97,25 @@ app.post('/stream-chunk', (req, res) => {
         fs.writeFileSync(filePath, wavBuffer);
         console.log(`[${sessionId}] Fichier WAV assemblé et sauvegardé: ${filePath}`);
 
+        // --- Étape de nettoyage avec FFmpeg ---
+        const cleanedFilePath = path.join(uploadsDir, `${sessionId}-cleaned.wav`);
+        const ffmpegCommand = `ffmpeg -i "${filePath}" -af "afftdn" "${cleanedFilePath}"`;
+        console.log(`[${sessionId}] DEBUG: Exécution de la commande FFmpeg: ${ffmpegCommand}`);
+
+        exec(ffmpegCommand, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`[${sessionId}] Erreur FFmpeg: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.warn(`[${sessionId}] FFmpeg Avertissement: ${stderr}`);
+            }
+            console.log(`[${sessionId}] Fichier nettoyé sauvegardé: ${cleanedFilePath}`);
+            console.log(`[${sessionId}] FFmpeg Output: ${stdout}`);
+        });
+
         delete sessions[sessionId];
-        res.status(200).json({ message: "Session complète, fichier WAV créé.", finalPath: filePath });
+        res.status(200).json({ message: "Session complète, fichier WAV créé et nettoyage lancé.", finalPath: filePath, cleanedPath: cleanedFilePath });
 
     } else {
         res.status(200).json({ message: `Fragment ${chunkIndex} reçu.` });
