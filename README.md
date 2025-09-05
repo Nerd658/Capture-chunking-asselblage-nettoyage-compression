@@ -1,103 +1,82 @@
-# MonProjetAudio : Streaming Audio en Temps Réel avec Traitement Backend
+# Projet Audio : Pipeline Conversationnel en Temps Réel
 
-## Description du Projet
-Ce projet implémente une application mobile (React Native avec Expo) capable de capturer un flux audio en temps réel, de l'envoyer par fragments au fur et à mesure à un backend Node.js, où il est assemblé en continu, converti en fichier WAV, et traité pour la réduction de bruit et la compression Opus.
+## Vision du Projet
 
-## Fonctionnalités
-- Capture audio en temps réel depuis le microphone de l'appareil.
-- **Streaming continu des fragments audio (PCM brut encodé en Base64) vers le backend.**
-- **Assemblage en temps réel des fragments audio sur le backend.**
-- Conversion de l'audio assemblé en fichier WAV standard.
-- Réduction de bruit appliquée au fichier WAV via FFmpeg.
-- Compression de l'audio nettoyé en format Opus via FFmpeg.
-- Pipeline de traitement audio entièrement fonctionnel et testé.
-- Le frontend attend la confirmation du backend que le traitement est terminé avant de finaliser l'arrêt.
+Ce projet implémente un pipeline audio complet et robuste, conçu pour servir de fondation à une **application conversationnelle en temps réel**. L'objectif final est de capturer la parole d'un utilisateur, de la transcrire en texte (Speech-to-Text), d'envoyer ce texte à une IA pour générer une réponse, et de convertir cette réponse en audio (Text-to-Speech).
 
-## Architecture
-Le projet est divisé en deux parties principales :
-- **Frontend (`MonProjetAudio/`)** : Application mobile développée avec React Native et Expo, utilisant un "dev client" pour la capture audio en temps réel.
-- **Backend (`backend-audio/`)** : Serveur Node.js avec Express, responsable de la réception des fragments, de l'assemblage, de la conversion WAV et du traitement audio (réduction de bruit).
+Cette version du projet se concentre sur la première brique, la plus critique : une capture audio intelligente, segmentée par les silences, et un traitement backend fiable.
+
+## Fonctionnalités Clés
+
+- **Capture Audio Continue** : L'application écoute en continu, sans jamais s'arrêter d'elle-même.
+- **Détection de Silence Intelligente (VAD)** : L'application détecte les pauses dans la parole de l'utilisateur. Cette détection est robuste et ignore les bruits parasites ou les micro-pauses.
+- **Segmentation Automatique** : Chaque fois qu'une pause de **800ms** est détectée, l'audio enregistré jusque-là est considéré comme un "segment" (une phrase ou une prise de parole) et est envoyé pour traitement.
+- **Streaming en Temps Réel** : Les données audio sont envoyées en petits fragments continus vers le backend pour une latence minimale.
+- **Traitement Backend par Segment** : Le serveur Node.js traite chaque segment individuellement, créant pour chacun un pipeline de fichiers : `.wav` (brut), `-cleaned.wav` (nettoyé avec FFmpeg), et `.opus` (compressé, idéal pour le STT).
+- **Préparation pour le Speech-to-Text (STT)** : Le code backend contient un emplacement clairement défini et documenté pour intégrer facilement n'importe quel moteur de STT.
+- **Architecture Frontend Modulaire** : Le code de l'application (React Native) a été entièrement refactorisé pour suivre les meilleures pratiques, en isolant la logique (Hooks), les appels réseau (Services) et l'interface (Composants).
+
+## Architecture et Flux de Données
+
+Le flux de données est pensé pour une conversation. Une session d'enregistrement peut contenir plusieurs segments, chacun déclenché par un silence.
 
 ```mermaid
 graph TD
     A[Microphone] --> B(Application Mobile - Frontend);
-    B --> C{LiveAudioStream - Capture Chunks Base64};
-    C -- HTTP POST (Fragments en continu) --> D(Serveur Node.js - Backend);
-    D --> E{Assemblage des Fragments en Temps Réel};
-    E --> F{Fichier WAV Original};
-    F --> G{FFmpeg - Réduction de Bruit};
-    G --> H{FFmpeg - Compression Opus};
-    H --> I[Fichiers Audio Finaux (.wav, .opus)];
+    B --> C{Capture Audio en Continu};
+    C --> D{Détection de Silence Robuste};
+    
+    subgraph "Boucle Conversationnelle"
+        direction LR
+        D -- Pause de 800ms --> E{Finalisation du Segment};
+        E -- Chunks Audio du Segment --> F(Serveur Node.js - Backend);
+        F --> G{Traitement du Segment};
+        G --> H[Fichiers Audio du Segment (.wav, .opus)];
+        H --> I{Placeholder STT};
+        I --> J[Texte Transcrit];
+        E --> C;
+    end
+
+    B -- Bouton Stop --> K{Arrêt Final de la Session};
 ```
 
-## Prérequis
-Assurez-vous d'avoir les éléments suivants installés sur votre machine :
+## Structure du Projet
 
-1.  **Node.js et npm** : Version 18 ou supérieure recommandée.
-2.  **Expo CLI** : Installez-le globalement si ce n'est pas déjà fait : `npm install -g expo-cli`
-3.  **FFmpeg** : **Indispensable pour la réduction de bruit sur le backend.**
-    Téléchargez et installez FFmpeg pour votre système d'exploitation depuis le site officiel : [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html). Assurez-vous qu'il est accessible via votre ligne de commande (ajouté au PATH).
+- **`MonProjetAudio/`** : Le frontend en React Native (Expo).
+  - **`app/`** : La structure des écrans. Le projet est maintenant mono-écran.
+  - **`components/`** : Contient les composants d'interface réutilisables.
+    - **`recorder/`** : Les composants spécifiques à l'écran d'enregistrement.
+  - **`hooks/`** : Contient le coeur de la logique du frontend, `useAudioRecorder.ts`.
+  - **`services/`** : Gère la communication avec le backend.
+- **`backend-audio/`** : Le backend en Node.js (Express).
+  - **`server.js`** : Le serveur qui gère la réception, l'assemblage et le traitement des segments.
+  - **`uploads/`** : Le dossier où les fichiers audio de chaque segment sont créés.
+- **`notes/`** : Contient les notes de développement.
+
+## Prérequis
+
+1.  **Node.js et npm**
+2.  **Expo CLI** (`npm install -g expo-cli`)
+3.  **FFmpeg** : Indispensable pour le traitement audio sur le backend. Doit être installé et accessible dans le PATH du système.
 
 ## Installation et Démarrage
 
-### 1. Cloner le dépôt
-```bash
-git clone <URL_DU_DEPOT> # Remplacez par l'URL de votre dépôt
-cd MonProjetAudio # Naviguez vers le dossier racine du projet
-```
+L'installation et le démarrage restent les mêmes. Assurez-vous de lancer le backend avant le frontend.
 
-### 2. Installation des dépendances du Frontend
-Naviguez dans le dossier du frontend et installez les dépendances :
-```bash
-cd MonProjetAudio
-npm install
-```
+1.  **Backend**
+    ```bash
+    cd backend-audio
+    npm install
+    node server.js
+    ```
+2.  **Frontend** (dans un autre terminal)
+    ```bash
+    cd MonProjetAudio
+    npm install
+    # Mettez à jour l'IP du backend dans services/audioService.ts
+    npx expo run:android # ou run:ios
+    ```
 
-### 3. Installation des dépendances du Backend
-Naviguez dans le dossier du backend et installez les dépendances :
-```bash
-cd backend-audio
-npm install
-```
+## Prochaines Étapes
 
-### 4. Configuration de l'adresse IP du Backend
-Le frontend est configuré pour envoyer les données à `http://172.20.5.0:3000`. Si l'adresse IP de votre machine (où tourne le backend) est différente, vous devrez la mettre à jour dans le fichier :
-`MonProjetAudio/app/(tabs)/index.tsx`
-Recherchez `const backendURL = 'http://172.20.5.0:3000/stream-chunk';` et remplacez l'IP.
-
-### 5. Démarrage du Backend
-Ouvrez un **nouveau terminal**, naviguez vers le dossier `backend-audio` et démarrez le serveur :
-```bash
-cd backend-audio
-node server.js
-```
-Le serveur écoutera sur le port 3000. Vous verrez des logs indiquant la réception et le traitement des fragments.
-
-### 6. Démarrage du Frontend (Client de Développement)
-**Attention :** Cette application nécessite un "client de développement" Expo et ne fonctionnera PAS avec l'application Expo Go standard.
-
-Naviguez vers le dossier du frontend et lancez le client de développement :
-```bash
-cd MonProjetAudio
-npx expo run:android # Pour Android
-# ou
-npx expo run:ios     # Pour iOS
-```
-La première fois, cette commande compilera une version personnalisée de l'application, ce qui peut prendre plusieurs minutes. Les fois suivantes, ce sera plus rapide.
-
-## Utilisation de l'Application
-1.  Assurez-vous que le backend est en cours d'exécution.
-2.  Lancez l'application mobile via le client de développement.
-3.  Appuyez sur le bouton **"Démarrer l'écoute"**.
-4.  Parlez dans le microphone de votre appareil (les fragments sont envoyés en continu).
-5.  Appuyez sur le bouton **"Arrêter"** (le frontend attendra la confirmation du backend).
-6.  Le backend recevra le signal de fin, finalisera l'assemblage, créera un fichier WAV original, un fichier WAV nettoyé par FFmpeg et un fichier Opus compressé dans le dossier `backend-audio/uploads/`.
-
-## Dépannage
-*   **`SDK location not found` / Erreurs de build Android :** Assurez-vous que votre `ANDROID_HOME` est configuré ou que `sdk.dir` est correctement défini dans `MonProjetAudio/android/local.properties`.
-*   **`ReferenceError: exec is not defined` :** Assurez-vous d'avoir redémarré votre serveur Node.js après les modifications du code.
-*   **Fichier WAV de 0 octets :** Vérifiez les logs du backend. Si le `DEBUG: Taille du buffer binaire (PCM) après assemblage` est 0, il y a un problème avec les données reçues ou l'assemblage. Si ce n'est pas 0, mais que le fichier final est vide, vérifiez l'installation de FFmpeg ou la commande.
-*   **Erreurs FFmpeg :** Vérifiez que FFmpeg est correctement installé et accessible via le PATH de votre système. Les messages d'erreur dans le terminal du backend vous donneront des indices.
-
-## Prochaines Étapes (Non implémentées)
-- Intégration d'un VAD (Voice Activity Detection) pour filtrer les silences avant l'envoi au backend.
+La prochaine étape logique est de remplir la fonction `lancerTranscription()` dans le fichier `backend-audio/server.js` avec un vrai moteur de Speech-to-Text pour compléter le pipeline.
